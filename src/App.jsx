@@ -38,8 +38,9 @@ const search = (event)=>{
 
   return (
     <div className={style.app}>
-        <h1>Weather App</h1>
+        
         <div className={style.weather}>
+          <h1>Weather App</h1>
            <div className={style.city}>
              <input className='search' type='text' placeholder='enter city' value={city}
              onChange={(e)=>setcity(e.target.value)}

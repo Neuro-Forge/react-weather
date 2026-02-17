@@ -16,14 +16,15 @@
     padding: 20px;
 }
 
-.app h1{
+.weather h1{
     font-size: 50px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 3px;
-    color: #fff;
+    color: #ccba32;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     margin-bottom: 30px;
+    top: -10px;
 }
 
 .weather{
