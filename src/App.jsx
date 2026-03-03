@@ -11,30 +11,31 @@ function App() {
     
   })
 
-const search = (event)=>{
-  if (event.key ==="Enter"){
-    setcity("")
-    setWeather({
-      ...weather,loading:true
+const fetchWeather = () => {
+  if (!city) return;
+  setWeather({ ...weather, loading: true });
+  axios
+    .get("https://api.openweathermap.org/data/2.5/weather", {
+      params: {
+        q: city,
+        units: "metric",
+        appid: "6d073fdaf621ed25480b5faef1c19b79",
+      },
     })
-    axios.get("https://api.openweathermap.org/data/2.5/weather",{
-      params:{
-        q:city,
-        units:"metric",
-        appid:"6d073fdaf621ed25480b5faef1c19b79"
-      }
-    }).then(res =>{
-      setWeather({
-        ...weather,
-        data:res.data,
-        loading:false,
-        error:false
-      })
-    }).catch(err =>{
-      setWeather({ ...weather,data:{},error:true})
+    .then((res) => {
+      setWeather({ ...weather, data: res.data, loading: false, error: false });
     })
+    .catch((err) => {
+      setWeather({ ...weather, data: {}, error: true, loading: false });
+    });
+};
+
+const search = (event) => {
+  if (event.key === "Enter") {
+    fetchWeather();
+    setcity("");
   }
-}
+};
 
   return (
     <div className={style.app}>
@@ -42,9 +43,10 @@ const search = (event)=>{
         <div className={style.weather}>
           <h1>Weather App</h1>
            <div className={style.city}>
-             <input className='search' type='text' placeholder='enter city' value={city}
+             <input type='text' placeholder='enter city' value={city}
              onChange={(e)=>setcity(e.target.value)}
              onKeyDown={search}></input>
+             <button className={style.button} onClick={() => { fetchWeather(); setcity(""); }}>Search</button>
            </div>
            {
             <Oval
@@ -71,6 +73,7 @@ const search = (event)=>{
                 <p className={style.description}>{weather.data.weather[0].main}</p>
                 <p>Feels like: {weather.data.main.feels_like}°C</p>
                 <p>Humidity: {weather.data.main.humidity}%</p>
+                <button className={style.button} onClick={() => setWeather({ ...weather, data: {} })}>Search another city</button>
               </div>
             )
            }
